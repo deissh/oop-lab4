@@ -18,7 +18,7 @@ public class Main {
 
         buf.seek(0x0E);
         int bmpHeaderSize = Integer.reverseBytes(buf.readInt());
-        if (bmpHeaderSize != 124) {
+        if (bmpHeaderSize != 124 && bmpHeaderSize != 108) {
             System.out.println("only bmp with BITMAPV5HEADER");
             return;
         }
@@ -29,9 +29,10 @@ public class Main {
         buf.seek(0x1E);
         buf.writeInt(Integer.reverseBytes(4));
 
-
         ImageIO.write(data, "jpeg", bos);
 
+        buf.length();
+        buf.setLength(offset);
         buf.seek(offset);
         buf.write(bos.toByteArray());
 
